@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wisconsin Flood Story Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--add required stylesheets-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="./storymap.css" type="text/css">
+    <link rel="stylesheet" href="./slideshow.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <!--add favicon for the web page-->
+    <link rel="shortcut icon" href="./sco_icon.ico" type="image/x-icon">
+
+    <!--add font-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cairo">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!--add required libraries-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script> <!-- for asynchronously adding geojson data -->
+    <script src="./storymap.js"></script> <!-- storymap plugin -->
+    
+    <!--another way to add json file-->
+    <!-- <script src="myjson.js"></script> -->
+
+    <style type="text/css">
+        .storymap-story section.visible.viewing {
+            opacity: 1;
+        }
+        .storymap-story .nopic.visible.viewing {
+            opacity: 0;
+        }
+        h3 {
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            padding: 10px 0px 10px 0px;
+        }
+        p {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+            padding: 10px 0px 0px 0px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="storymap" class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-md-8 storymap-map" style="z-index: -1"></div>
+        <!-- <div class="toggle_basemap" style="z-index: 100">
+            <label class="switch" onclick="toggleFunction()">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
+        </div> -->
+        <div class="col-sm-6 col-md-4 storymap-story">
+            <section data-scene="scene0">
+                <h1>Major Flood Events in Ashland County, Wisconsin during 2016-2019</h1>
+                <iframe width=100% src="https://www.youtube.com/embed/_R1KLVwk3l0">
+                </iframe>
+                <p>Source: Times-Gazette, 2019</p>
+            </section>
+            <section data-scene="scene1">
+                <h3>Flooding in the Tannery Town neighborhood of Mellen</h3>
+                <img src="photo/1-initial20.jpg" alt="1" width=100%>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene2">
+                <h3>Flooding along State Highway 77 in the city of Mellen</h3>
+                <!-- Slideshow container -->
+                <div class="w3-content w3-display-container" style="max-width:800px">
+                    <img class="mySlides mySlides2 fade" src="photo/2-ashland15-19-1.jpg" style="width:100%">
+                    <img class="mySlides mySlides2 fade" src="photo/2-ashland15-19-2.jpg" style="width:100%">
+                    <img class="mySlides mySlides2 fade" src="photo/2-ashland15-19-3.jpg" style="width:100%">
+                    <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style="width:100%">
+                        <div class="w3-left w3-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
+                        <div class="w3-right w3-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
+                        <span class="dot dot2" onclick="currentDiv(1)"></span>
+                        <span class="dot dot2" onclick="currentDiv(2)"></span>
+                        <span class="dot dot2" onclick="currentDiv(3)"></span>
+                    </div>
+                </div>
+                <p>Date: July 12, 2019<br>Source: State Patrol</p>
+            </section>
+            <section data-scene="scene3">
+                <h3>Flooding in the city of Mellen</h3>
+                <!-- Slideshow container -->
+                <div class="w3-content w3-display-container" style="max-width:800px">
+                    <img class="mySlides mySlides3 fade" src="photo/3-initial16-18-1.jpg" style="width:100%">
+                    <img class="mySlides mySlides3 fade" src="photo/3-initial16-18-2.jpg" style="width:100%">
+                    <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style="width:100%">
+                        <div class="w3-left w3-hover-text-khaki" onclick="plusDivs3(-1)">&#10094;</div>
+                        <div class="w3-right w3-hover-text-khaki" onclick="plusDivs3(1)">&#10095;</div>
+                        <span class="dot dot3" onclick="currentDiv3(1)"></span>
+                        <span class="dot dot3" onclick="currentDiv3(2)"></span>
+                    </div>
+                </div>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene3a">
+                <h3>Small Flood Damage to Roadside</h3>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene4">
+                <h3>Flood damage to County Highway C at Krause Creek, in the Town of Ashland north of the city of Mellen</h3>
+                <img src="photo/4-ashland31-2016-0.jpg" alt="4" width=100%>
+                <p>Date: July 12, 2019<br>Source: State Patrol</p>
+            </section>
+            <section data-scene="scene5">
+                <h3>Flood damage to State Highway 13 in the Town of Morse, north of the city of Mellen</h3>
+                <img src="photo/5-initial19.jpg" alt="5" width=100%>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene5a">
+            <h3>Small Flood Damage to Riverbank</h3>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene6">
+                <h3>Flood damage to County Highway C at Silver Creek, in the Town of Ashland south of the unincorporated community of Highbridge</h3>
+                <!-- Slideshow container -->
+                <div class="w3-content w3-display-container" style="max-width:800px">
+                    <img class="mySlides mySlides6 fade" src="photo/6-ashland28-30-1.jpg" style="width:100%">
+                    <img class="mySlides mySlides6 fade" src="photo/6-ashland28-30-2.jpg" style="width:100%">
+                    <img class="mySlides mySlides6 fade" src="photo/6-ashland28-30-3.jpg" style="width:100%">
+                    <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style="width:100%">
+                        <div class="w3-left w3-hover-text-khaki" onclick="plusDivs6(-1)">&#10094;</div>
+                        <div class="w3-right w3-hover-text-khaki" onclick="plusDivs6(1)">&#10095;</div>
+                        <span class="dot dot6" onclick="currentDiv6(1)"></span>
+                        <span class="dot dot6" onclick="currentDiv6(2)"></span>
+                        <span class="dot dot6" onclick="currentDiv6(2)"></span>
+                    </div>
+                </div>
+                <p>Date: July 12, 2019<br>Source: State Patrol</p>
+            </section>
+            <section data-scene="scene7">
+                <h3>Flood damage to State Highway 13 at Silver Creek, in the Town of Ashland near the unincorporated community of Highbridge</h3>
+                <!-- Slideshow container -->
+                <div class="w3-content w3-display-container" style="max-width:800px">
+                    <img class="mySlides mySlides7 fade" src="photo/7-initial4-9-3.jpg" style="width:100%">
+                    <img class="mySlides mySlides7 fade" src="photo/7-initial4-9-4.jpg" style="width:100%">
+                    <img class="mySlides mySlides7 fade" src="photo/7-initial4-9-6.jpg" style="width:100%">
+                    <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style="width:100%">
+                        <div class="w3-left w3-hover-text-khaki" onclick="plusDivs7(-1)">&#10094;</div>
+                        <div class="w3-right w3-hover-text-khaki" onclick="plusDivs7(1)">&#10095;</div>
+                        <span class="dot dot7" onclick="currentDiv7(1)"></span>
+                        <span class="dot dot7" onclick="currentDiv7(2)"></span>
+                        <span class="dot dot7" onclick="currentDiv7(3)"></span>
+                    </div>
+                </div>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene7a">
+                <h3>Small Flood Damage to Riverbank</h3>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene8">
+                <h3>Flood damage to State Highway 13 at Trout Brook, in the Town of Ashland near the unincorporated community of North York</h3>
+                <img src="photo/8-initial15.jpg" alt="8" width=100%>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene8a">
+                <h3>Small Flood Damage to Roadside</h3>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene9">
+                <h3>Flood damage to County Highway C in the Town of Ashland, near the unincorporated community of Minersville</h3>
+                <img src="photo/9-initial2-2016-5.jpg" alt="9" width=50%>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene10">
+                <h3>Flood damage to County Highway C in the Town of Ashland, near the unincorporated community of Minersville</h3>
+                <img src="photo/10-initial3.jpg" alt="10" width=50%>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene11">
+                <h3>Flood damage to State Highway 13 in the Town of Ashland, near the unincorporated community of North York</h3>
+                <img src="photo/11-ashland32-2016-1.jpg" alt="11" width=100%>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene12">
+                <h3>Flood damage to State Highway 13 in the Town of Ashland, near the unincorporated community of North York</h3>
+                <!-- Slideshow container -->
+                <div class="w3-content w3-display-container" style="max-width:800px">
+                    <img class="mySlides mySlides12 fade" src="photo/12-ashland33-36-1.jpg" style="width:100%">
+                    <img class="mySlides mySlides12 fade" src="photo/12-ashland33-36-2.jpg" style="width:100%">
+                    <img class="mySlides mySlides12 fade" src="photo/12-ashland33-36-3.jpg" style="width:100%">
+                    <img class="mySlides mySlides12 fade" src="photo/12-ashland33-36-4.jpg" style="width:100%">
+                    <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style="width:100%">
+                        <div class="w3-left w3-hover-text-khaki" onclick="plusDivs12(-1)">&#10094;</div>
+                        <div class="w3-right w3-hover-text-khaki" onclick="plusDivs12(1)">&#10095;</div>
+                        <span class="dot dot12" onclick="currentDiv12(1)"></span>
+                        <span class="dot dot12" onclick="currentDiv12(2)"></span>
+                        <span class="dot dot12" onclick="currentDiv12(3)"></span>
+                        <span class="dot dot12" onclick="currentDiv12(3)"></span>
+                    </div>
+                </div>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene12a">
+            <h3>Small Flood Damage to Roadside</h3>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene12b">
+            <h3>Small Flood Damage to Roadside</h3>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene12c">
+            <h3>Small Flood Damage to Roadside</h3>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene13">
+                <h3>Flooding around an electrical substation near Beaser Road in the Town of Gingles, just south of the city of Ashland</h3>
+                <img src="photo/13-ashland6.jpg" alt="13" width=100%>
+                <p>Date: July 13, 2016<br>Source: Wisconsin Emergency Management (WEM)</p>
+            </section>
+            <section data-scene="scene14">
+                <h3>Flood damage to Binsfield Road in the city of Ashland, near Ashland Elementary Charter School</h3>
+                <img src="photo/14-ashland7-9-1-2016-35.jpg" alt="14" width=100%>
+                <p>Date: July 13, 2016<br>Source: Civil Air Patrol</p>
+            </section>
+            <section data-scene="scene15">
+                <h3>Portion of the city of Ashland</h3>
+                <img src="photo/15-ashland14.jpg" alt="15" width=100%>
+                <p>Date: July 13, 2016<br>Source: Civil Air Patrol</p>
+            </section>
+            <section data-scene="scene16">
+                <h3>Flooding around Xcel Energy's Bay Front Generating Station in Ashland</h3>
+                <img src="photo/16-ashland2-3-1.jpg" alt="16" width=100%>
+                <p>Date: July 14, 2016<br>Source: Civil Air Patrol</p>
+            </section>
+            <section data-scene="scene17">
+                <h3>Lake Superior shoreline in the city of Ashland</h3>
+                <img src="photo/17-ashland1.jpg" alt="17" width=100%>
+                <p>Date: July 14, 2016<br>Source: Civil Air Patrol</p>
+            </section>
+            <section data-scene="scene18">
+                <h3>Sediment-laden water in Chequamegon Bay near the city of Ashland</h3>
+                <img src="photo/18-ashland5.jpg" alt="18" width=100%>
+                <p>Date: July 13, 2016<br>Source: Civil Air Patrol</p>
+            </section>
+            <section data-scene="scene19">
+                <h2>The End</h2>
+                <p>Produced by S.Wang, 2019</p>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script src="./slideshow.js"></script>
+
+<script type="text/javascript">
+    var geojsonMarkerOptions = {
+        radius: 16,
+        fillColor: "#ff7800",
+        color: "#ff7800",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.2
+    };
+
+    var layers = {
+        layer1: {
+            layer: L.tileLayer('https://tiles.arcgis.com/tiles/HRPe58bUyBqyyiCt/arcgis/rest/services/AshlandMap/MapServer/tile/{z}/{y}/{x}')
+        },
+        layer2: {
+            // layer: L.geoJSON(myjson)
+            layer: L.geoJson.ajax('StoryMapFinal.geojson',{
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                }
+            })
+        },
+        layer4: {
+            layer: L.geoJson.ajax('StoryMapAdd.geojson',{
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                }
+            })
+        },
+        layer3: {
+            layer: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')
+        }
+    };
+
+    var scenes = {
+    	scene0: {lat: 46.321314166257814, lng: -90.654405473077787, zoom: 13, layers: [layers.layer2], name: "scene 0"},
+        scene1: {lat: 46.321314166257814, lng: -90.654405473077787, zoom: 17, layers: [layers.layer2], name: "scene 1"},
+        scene2: {lat: 46.321998694420486, lng: -90.655872629142436, zoom: 17, layers: [layers.layer2], name: "scene 2"},
+        scene3: {lat: 46.327590379448516, lng: -90.655780569949059, zoom: 17, layers: [layers.layer2], name: "scene 3"},
+        scene3a: {lat: 46.342360999117091, lng: -90.673961999965158, zoom: 17, layers: [layers.layer2, layers.layer4], name: "scene 3a"},
+        scene4: {lat: 46.356637335326468, lng: -90.680722215532413, zoom: 17, layers: [layers.layer2], name: "scene 4"},
+        scene5: {lat: 46.364968258185264, lng: -90.681141493814295, zoom: 17, layers: [layers.layer2], name: "scene 5"},
+        scene5a: {lat: 46.371805999116837, lng: -90.70641499934537, zoom: 17, layers: [layers.layer2, layers.layer4], name: "scene 5a"},
+        scene6: {lat: 46.361643427158135, lng: -90.736362912299583, zoom: 17, layers: [layers.layer2], name: "scene 6"},
+        scene7: {lat: 46.38695224021086, lng: -90.727262731238184, zoom: 17, layers: [layers.layer2], name: "scene 7"},
+        scene7a: {lat: 46.392453999235968, lng: -90.760219000523932, zoom: 17, layers: [layers.layer2, layers.layer4], name: "scene 7a"},
+        scene8: {lat: 46.391960311287043, lng: -90.773994150810651, zoom: 17, layers: [layers.layer2], name: "scene 8"},
+        scene8a: {lat: 46.402104999205385, lng: -90.76754599940439, zoom: 17, layers: [layers.layer2, layers.layer4], name: "scene 8a"},
+        scene9: {lat: 46.407232015673344, lng: -90.763552697968876, zoom: 17, layers: [layers.layer2], name: "scene 9"},
+        scene10: {lat: 46.407014339863345, lng: -90.773664509392418, zoom: 17, layers: [layers.layer2], name: "scene 10"},
+        scene11: {lat: 46.402307780646886, lng: -90.794117804867739, zoom: 17, layers: [layers.layer2], name: "scene 11"},
+        scene12: {lat: 46.41576807045498, lng: -90.80813283884298, zoom: 17, layers: [layers.layer2], name: "scene 12"},
+        scene12a: {lat: 46.423809998828553, lng: -90.817120000087158, zoom: 17, layers: [layers.layer2, layers.layer4], name: "scene 12a"},
+        scene12b: {lat: 46.471819999112817, lng: -90.843389999751963, zoom: 17, layers: [layers.layer2, layers.layer4], name: "scene 12b"},
+        scene12c: {lat: 46.493319999167227, lng: -90.839259999462413, zoom: 17, layers: [layers.layer2, layers.layer4], name: "scene 12c"},
+        scene13: {lat: 46.558531960851418, lng: -90.882473753210419, zoom: 15, layers: [layers.layer2], name: "scene 13"},
+        scene14: {lat: 46.5669643045062, lng: -90.876643562230626, zoom: 17, layers: [layers.layer2], name: "scene 14"},
+        scene15: {lat: 46.576791984870489, lng: -90.905910780329535, zoom: 17, layers: [layers.layer2], name: "scene 15"},
+        scene16: {lat: 46.586418198555286, lng: -90.900665589951473, zoom: 17, layers: [layers.layer2], name: "scene 16"},
+        scene17: {lat: 46.598332665654858 , lng: -90.884264532990301, zoom: 16, layers: [layers.layer2], name: "scene 17"},
+        scene18: {lat: 46.602485623414445, lng: -90.876800903711668, zoom: 16, layers: [layers.layer2], name: "scene 18"},
+        scene19: {lat: 46.602485623414445, lng: -90.876800903711668, zoom: 15, layers: [layers.layer2, layers.layer4], name: "scene 19"}
+    };
+
+    $('#storymap').storymap({
+        scenes: scenes,
+        baselayer: layers.layer1,
+        legend: true,
+        loader: true,
+        flyto: true,
+        credits: "Build with <i class='material-icons' style='color: red; font-size: 10px;'>favorite</i> from John Doe",
+        scalebar: true,
+        scrolldown: true,
+        progressline: true,
+        navwidget: true,
+        createMap: function () {
+            var map = L.map($(".storymap-map")[0], {zoomControl: false}).setView([46.321314166257814, -90.654405473077787], 16);
+            basemap = this.baselayer.layer.addTo(map);
+            return map;
+        }
+    });
+
+</script>
+</body>
+</html>
