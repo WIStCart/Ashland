@@ -25,9 +25,8 @@ body {
 h1 {
     margin-top: 25%;
     font-family: Cairo, sans-serif;
-    color: rgba(255, 255, 255, 0.95);
+    color: black;
     font-size: 4vw;
-    text-shadow: 0 0 6px rgba(0, 0, 0, .95);
 }
 
 .storymap-trigger {
